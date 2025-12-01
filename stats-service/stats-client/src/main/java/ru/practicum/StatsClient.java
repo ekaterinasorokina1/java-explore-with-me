@@ -1,7 +1,6 @@
 package ru.practicum;
 
 import jakarta.validation.ValidationException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -15,7 +14,6 @@ import ru.practicum.dto.StatsDto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Slf4j
 @Component
 public class StatsClient {
     private final RestClient restClient;
