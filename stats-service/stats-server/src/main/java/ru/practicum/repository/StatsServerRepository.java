@@ -2,24 +2,26 @@ package ru.practicum.repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import ru.practicum.dto.StatsDto;
 import ru.practicum.model.EndpointHit;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Repository
 public interface StatsServerRepository extends CrudRepository<EndpointHit, Long> {
-    @Query("select new ru.practicum.dto.StatsDto(h.app, h.uri, count(h.ip))  " +
-            "from EndpointHit as h " +
-            "where (h.timestamp between ?1 and ?2) and (?3 is null or h.uri in ?3)" +
-            "group by h.app, h.uri " +
-            "order by count(h.ip) DESC")
+    @Query("SELECT new ru.practicum.dto.StatsDto(h.app, h.uri, COUNT(h.ip))  " +
+            "FROM EndpointHit as h " +
+            "WHERE (h.timestamp BETWEEN ?1 AND ?2) AND (?3 IS NULL OR h.uri IN ?3)" +
+            "GROUP BY h.app, h.uri " +
+            "ORDER BY COUNT(h.ip) DESC")
     List<StatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uri);
 
-    @Query("select new ru.practicum.dto.StatsDto(h.app, h.uri, count(DISTINCT h.ip))  " +
-            "from EndpointHit as h " +
-            "where (h.timestamp between ?1 and ?2) and (?3 is null or h.uri in ?3)" +
-            "group by h.app, h.uri " +
-            "order BY count(DISTINCT h.ip) DESC")
+    @Query("select new ru.practicum.dto.StatsDto(h.app, h.uri, COUNT(DISTINCT h.ip))  " +
+            "FROM EndpointHit as h " +
+            "WHERE (h.timestamp BETWEEN ?1 AND ?2) AND (?3 IS NULL OR h.uri IN ?3)" +
+            "GROUP BY h.app, h.uri " +
+            "ORDER BY COUNT(DISTINCT h.ip) DESC")
     List<StatsDto> getStatsUnique(LocalDateTime start, LocalDateTime end, List<String> uri);
 }

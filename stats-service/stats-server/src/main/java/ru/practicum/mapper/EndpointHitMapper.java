@@ -17,7 +17,6 @@ public class EndpointHitMapper {
     public static EndpointHit toEntity(HitDto hitDto) {
         EndpointHit endpointHit = new EndpointHit();
         endpointHit.setApp(hitDto.getApp());
-        endpointHit.setId(hitDto.getId());
         endpointHit.setUri(hitDto.getUri());
         endpointHit.setIp(hitDto.getIp());
         return endpointHit;

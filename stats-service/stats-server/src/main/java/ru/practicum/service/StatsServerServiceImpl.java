@@ -27,7 +27,7 @@ public class StatsServerServiceImpl implements StatsServerService {
 
     @Override
     public List<StatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uri, Boolean unique) {
-        if (unique) {
+        if (unique != null && unique) {
             return statsServerRepository.getStatsUnique(start, end, uri);
         }
         return statsServerRepository.getStats(start, end, uri);

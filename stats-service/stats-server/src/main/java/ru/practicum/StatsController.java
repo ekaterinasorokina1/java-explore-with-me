@@ -29,10 +29,10 @@ public class StatsController {
                                   LocalDateTime start,
                                   @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                                   LocalDateTime end,
-                                  @RequestParam(required = false) List<String> uri,
+                                  @RequestParam(required = false) List<String> uris,
                                   @RequestParam(required = false, defaultValue = "false") Boolean unique) {
 
-        return statsServerService.getStats(start, end, uri, unique);
+        return statsServerService.getStats(start, end, uris, unique);
     }
 
 }
