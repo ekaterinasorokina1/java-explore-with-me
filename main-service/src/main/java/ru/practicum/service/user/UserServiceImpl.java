@@ -34,11 +34,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserById(Long userId) {
-        return UserMapper.toUserDto(getUser(userId));
-    }
-
-    @Override
     @Transactional
     public UserDto createUser(NewUserRequest newUserRequest) {
         Optional<User> userExists = userRepository.findByEmail(newUserRequest.getEmail());
