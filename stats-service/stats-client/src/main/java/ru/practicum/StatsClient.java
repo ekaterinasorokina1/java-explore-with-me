@@ -12,18 +12,20 @@ import org.springframework.web.util.UriComponentsBuilder;
 import ru.practicum.dto.HitDto;
 import ru.practicum.dto.StatsDto;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Component
 public class StatsClient {
     private final RestClient restClient;
     @Value("${stats-server.url}")
     private String serverUrl;
-    @Value("${application.name}")
+
+    @Value("${app.name}")
     private String appName;
     private final String dateFormat = "yyyy-MM-dd HH:mm:ss";
 
@@ -41,6 +43,7 @@ public class StatsClient {
         HitDto hitDto = new HitDto();
         hitDto.setIp(request.getRemoteAddr());
         hitDto.setUri(request.getRequestURI());
+        hitDto.setTimestamp(LocalDateTime.now());
         hitDto.setApp(appName);
 
         return restClient.post()
@@ -65,11 +68,11 @@ public class StatsClient {
         UriComponentsBuilder urlBuilder = UriComponentsBuilder
                 .fromHttpUrl(serverUrl)
                 .path("/stats")
-                .queryParam("start", URLEncoder.encode(formattedStart, StandardCharsets.UTF_8))
-                .queryParam("end", URLEncoder.encode(formattedEnd, StandardCharsets.UTF_8));
+                .queryParam("start", formattedStart)
+                .queryParam("end", formattedEnd);
 
         if (uris != null && !uris.isEmpty()) {
-            urlBuilder.queryParam("uris", URLEncoder.encode(uris.toString(), StandardCharsets.UTF_8));
+            urlBuilder.queryParam("uris", uris);
         }
         if (unique != null) {
             urlBuilder.queryParam("unique", unique);

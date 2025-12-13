@@ -1,3 +1,5 @@
+app:
+  name: "statsServer"
 server:
   port: 9090
 
