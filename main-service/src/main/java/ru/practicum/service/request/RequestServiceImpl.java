@@ -95,7 +95,7 @@ public class RequestServiceImpl implements RequestService {
                 throw new ConflictException("Достигнут лимит участников");
             }
         }
-        if (event.getState() !=EventState.PUBLISHED) {
+        if (event.getState() != EventState.PUBLISHED) {
             throw new ConflictException("нельзя добавить запрос на неопубликованное событие");
         }
     }
