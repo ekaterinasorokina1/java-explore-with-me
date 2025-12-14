@@ -22,14 +22,14 @@ services:
     container_name: stats-db
     ports:
       - "9091:5432"
-    volumes:
-      - ./volumes/postgres:/var/lib/postgresql/data/
     environment:
       - POSTGRES_DB=stats
       - POSTGRES_USER=stats
       - POSTGRES_PASSWORD=1234
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data/
     healthcheck:
-      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
+      test: ["CMD-SHELL", "pg_isready -q -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
       timeout: 5s
       interval: 5s
       retries: 10
@@ -60,8 +60,10 @@ services:
       - POSTGRES_DB=ewm
       - POSTGRES_USER=ewm
       - POSTGRES_PASSWORD=1234
+    volumes:
+      - ./volumes/ewm_data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ewm" ]
+      test: [ "CMD-SHELL", "pg_isready -q -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\"" ]
       interval: 10s
       timeout: 5s
       retries: 5
