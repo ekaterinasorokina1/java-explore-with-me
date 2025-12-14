@@ -1,12 +1,4 @@
-FROM eclipse-temurin:21-jre-jammy
-
+FROM amazoncorretto:21
 WORKDIR /app
-
-VOLUME /tmp
-
-EXPOSE 8080
-
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-
-ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar app.jar"]
+COPY target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
