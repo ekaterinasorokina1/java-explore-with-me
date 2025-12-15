@@ -1,5 +1,6 @@
 package ru.practicum.service;
 
+import jakarta.validation.ValidationException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,12 @@ public class StatsServerServiceImpl implements StatsServerService {
 
     @Override
     public List<StatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uri, Boolean unique) {
+        if (start == null || end == null) {
+            throw new ValidationException("Нужно указать дату начала и окончания");
+        }
+        if (start.isAfter(end)) {
+            throw new ValidationException("Нужно указать дату начала до даты окончания");
+        }
         if (unique != null && unique) {
             return statsServerRepository.getStatsUnique(start, end, uri);
         }
