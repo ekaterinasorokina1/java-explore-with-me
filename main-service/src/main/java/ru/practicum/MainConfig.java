@@ -1,8 +1,7 @@
-package ru.practicum.config;
+package ru.practicum;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.practicum.StatsClient;
 
 @Configuration
 public class MainConfig {
